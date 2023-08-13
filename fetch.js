@@ -33,21 +33,21 @@ buttonTow.addEventListener("click", () => {
 });
 
 // 2
-// async function RequestJokes() {
-//   const joke = document.getElementById("joke");
-//   try {
-//     const data1 = await fetch('https://api.humorapi.com/jokes/search?api-key=41429990cb2b4ce3a690d1457972f45d')
-//     if (data1.ok) {
-//       const finalData = await data1.json();
-//       joke.textContent = finalData;
-//     } else {
-//       throw new Error("error");
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-// RequestJokes();
+async function RequestJokes() {
+  const joke = document.getElementById("joke");
+  try {
+    const data1 = await fetch('https://api.humorapi.com/jokes/search?api-key=41429990cb2b4ce3a690d1457972f45d')
+    if (data1.ok) {
+      const finalData = await data1.json();
+      joke.textContent = finalData;
+    } else {
+      throw new Error("error");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+RequestJokes();
 
 // 3
 async function RequestProducts() {
@@ -63,13 +63,49 @@ async function RequestProducts() {
   }
 }
 
-const list = document.getElementById('list')
+const list = document.getElementById("list");
 RequestProducts().then((data) => {
   for (const product of data) {
-    const rowList = document.createElement('li')
-    rowList.textContent = product.title
-    list.append(rowList)
+    const rowList = document.createElement("li");
+    rowList.textContent = product.title;
+    list.append(rowList);
   }
-})
+});
 
 // 4
+const buttonSend = document.getElementById("send");
+buttonSend.addEventListener(() => {
+  
+})
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const details = {
+  method: "post",
+  body: JSON.stringify({
+    name: {
+      firstName: firstName.value,
+      lastName: lastName.value,
+    },
+    email: email.value,
+    phone: phone.value,
+  }),
+};
+
+async function form() {
+  try {
+    const data1 = await fetch(
+      "https://jsonplaceholder.typicode.com/users",
+      details
+    );
+    if (data1.ok) {
+      const a = await data1.json();
+      console.log(a);
+    } else {
+      throw new Error("error");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
