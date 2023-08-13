@@ -33,13 +33,28 @@ buttonTow.addEventListener("click", () => {
 });
 
 // 2
-async function RequestJokes() {
-  const joke = document.getElementById("joke");
+// async function RequestJokes() {
+//   const joke = document.getElementById("joke");
+//   try {
+//     const data1 = await fetch('https://api.humorapi.com/jokes/search?api-key=41429990cb2b4ce3a690d1457972f45d')
+//     if (data1.ok) {
+//       const finalData = await data1.json();
+//       joke.textContent = finalData;
+//     } else {
+//       throw new Error("error");
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+// RequestJokes();
+
+// 3
+async function RequestProducts() {
   try {
-    const data1 = await fetch('https://api.humorapi.com/jokes/search?api-key=41429990cb2b4ce3a690d1457972f45d')
+    const data1 = await fetch("https://fakestoreapi.com/products");
     if (data1.ok) {
-      const finalData = await data1.json();
-      joke.textContent = finalData;
+      return await data1.json();
     } else {
       throw new Error("error");
     }
@@ -47,4 +62,14 @@ async function RequestJokes() {
     console.log(error);
   }
 }
-RequestJokes();
+
+const list = document.getElementById('list')
+RequestProducts().then((data) => {
+  for (const product of data) {
+    const rowList = document.createElement('li')
+    rowList.textContent = product.title
+    list.append(rowList)
+  }
+})
+
+// 4
