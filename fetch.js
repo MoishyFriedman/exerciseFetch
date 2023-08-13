@@ -11,7 +11,6 @@ async function fetchRequest(param) {
     console.log(error);
   }
 }
-
 const button = document.getElementById("buttonOne");
 const pName = document.getElementById("name");
 const pEmail = document.getElementById("email");
@@ -36,10 +35,12 @@ buttonTow.addEventListener("click", () => {
 async function RequestJokes() {
   const joke = document.getElementById("joke");
   try {
-    const data1 = await fetch('https://api.humorapi.com/jokes/search?api-key=41429990cb2b4ce3a690d1457972f45d')
+    const data1 = await fetch(
+      "https://api.humorapi.com/jokes/search?api-key=41429990cb2b4ce3a690d1457972f45d"
+    );
     if (data1.ok) {
       const finalData = await data1.json();
-      joke.textContent = finalData;
+      joke.textContent = finalData.jokes[0].joke;
     } else {
       throw new Error("error");
     }
@@ -62,7 +63,6 @@ async function RequestProducts() {
     console.log(error);
   }
 }
-
 const list = document.getElementById("list");
 RequestProducts().then((data) => {
   for (const product of data) {
@@ -74,38 +74,39 @@ RequestProducts().then((data) => {
 
 // 4
 const buttonSend = document.getElementById("send");
-buttonSend.addEventListener(() => {
-  
-})
-const firstName = document.getElementById("firstName");
-const lastName = document.getElementById("lastName");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
-const details = {
-  method: "post",
-  body: JSON.stringify({
-    name: {
-      firstName: firstName.value,
-      lastName: lastName.value,
-    },
-    email: email.value,
-    phone: phone.value,
-  }),
-};
-
-async function form() {
+buttonSend.addEventListener("click", async () => {
+  const details = sendDetails();
   try {
-    const data1 = await fetch(
+    const data = await fetch(
       "https://jsonplaceholder.typicode.com/users",
       details
     );
-    if (data1.ok) {
-      const a = await data1.json();
-      console.log(a);
+    if (data.ok) {
+      const newUser = await data.json();
+      console.log(newUser);
     } else {
       throw new Error("error");
     }
   } catch (error) {
     console.log(error);
   }
+});
+
+function sendDetails() {
+  const firstName = document.getElementById("firstName");
+  const lastName = document.getElementById("lastName");
+  const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
+  const details = {
+    method: "post",
+    body: JSON.stringify({
+      name: {
+        firstName: firstName.value,
+        lastName: lastName.value,
+      },
+      email: email.value,
+      phone: phone.value,
+    }),
+  };
+  return details;
 }
